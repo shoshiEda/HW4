@@ -1,0 +1,37 @@
+<html>
+    <body>
+        
+
+            Username: <input type="text" id="username"> <br>
+            Password: <input type="password" id="password"> <br>
+            <button onclick="login()">Login</button>
+
+
+        <script>
+           async function login() {
+               const username =  document.getElementById("username").value
+               const password = document.getElementById("password").value
+
+
+
+              const resp =   await fetch("http://localhost:8000/auth/login", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"}, 
+                    body: JSON.stringify({username: username, password: password})
+                })
+                const data = await resp.json()
+                const token = data.token
+                if(token)
+                {
+                    localStorage.setItem("token", token)
+                    localStorage.setItem("username", username)
+                    window.location.href = "./products.html"
+                }
+                else{
+                    alert("Wrong username or password!")
+                }
+            }
+
+        </script>
+    </body>
+</html>
